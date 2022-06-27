@@ -1,12 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('/');
+});
+
 Route::get('/welcome', function () {
     return view('welcome');
 });
 
 Route::get('dashboard', function () {
-    return view('dashboard');
+    return view('dashboard_en');
 });
 Route::get('dashboard_ar', function () {
     return view('dashboard_ar');
@@ -62,3 +67,13 @@ Route::get('all_banner_ar', function () {
 
 
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
