@@ -1,22 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
+use App\Http\Controllers\ShipmentController;
 
-Route::get('/', function () {
-    return view('/');
-});
-
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+Route::get(
+    '/',
+    function () {
+        return view('welcome');
+    }
+);
 
 Route::get('dashboard', function () {
-    return view('dashboard_en');
+    return view('dashboard');
 });
-Route::get('dashboard_ar', function () {
-    return view('dashboard_ar');
-});
-//Users
+
+Route::resource('shipments', ShipmentController::class);
+
+//Route::resource('user', Shipme::class);
+//shipment resource controllers
+
 Route::get('users', function () {
     return view('users');
 });
@@ -72,8 +75,8 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
-])->group(function () {
+])/* ->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-});
+}) */;
