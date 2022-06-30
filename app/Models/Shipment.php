@@ -7,5 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model
 {
-    use HasFactory;
+  use HasFactory;
+  protected $table = "shipments";
+  protected $fillable = ['note'];
+
+  public function shipment_image()
+  {
+    return $this->hasMany(shipment_image::class, 'shipment_id');
+  }
 }
