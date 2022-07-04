@@ -4,17 +4,30 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\DropzoneController;
+use App\Http\Controllers\FileUpload;
 use App\Models\Shipment;
+use Dompdf\Adapter\PDFLib;
 
 Route::get('dashboard', function () {
     return view('dashboard');
+})->name('dashboard.dash');
+
+Route::get('dashboard1', function () {
+    return view('dashboard');
+})->name('dashboard.dash');
+ 
+Route::get('ship', function () {
+    return view('ship');
 });
+Route::get('/upload-file', [FileUpload::class, 'createForm']);
+Route::post('/upload-file', [FileUpload::class, 'fileUpload'])->name('fileUpload');
 
-Route::get('dropzone', [DropzoneController::class, 'index']);
 
-Route::POST('dropzone/upload', [DropzoneController::class, 'upload'])->name('dropzone.upload');
+Route::get('dropzone', [DropzoneController::class, 'index'])->name('dropzone.index');;
 
-Route::POST('dropzone/note', [DropzoneController::class, 'note'])->name('dropzone.note');
+Route::post('dropzone/upload', [DropzoneController::class, 'upload'])->name('dropzone.upload');
+
+// Route::post('dropzone/note', [DropzoneController::class, 'note'])->name('dropzone.note');
 
 Route::get('dropzone/fetch', [DropzoneController::class, 'fetch'])->name('dropzone.fetch');
 

@@ -7,10 +7,11 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
  </head>
  <div class="container-fluid">
-     <br />
-     <h3 align="center">Image Upload
+     <br /> <br> <br>
+     <h3 align="center">Image & Files Upload
      </h3>
      <br />
 
@@ -22,15 +23,65 @@
              <form id="dropzoneForm" class="dropzone" name="image" action="{{ route('dropzone.upload') }}"
                  enctype="multipart/form-data">
                  @csrf
+                 <div>
+                     <p>Add Your Note</p>
+                     <textarea name="note" id="note" cols="20" rows="5" form="dropzoneForm"></textarea><br><br>
+                 </div>
 
              </form>
-             <div align="center">
-                 <button type="button" class="btn btn-info" id="submit-all">Upload</button>
-             </div>
+
+         </div>
+         <div align="center">
+             <button type="button" class="btn btn-info" id="submit-all">Upload</button>
          </div>
 
      </div>
      <br />
+      
+      
+        <div>
+            <style>
+                .container {
+                    max-width: 500px;
+                }
+                dl, ol, ul {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container mt-5">
+                <form action="{{route('fileUpload')}}" method="post" enctype="multipart/form-data">
+                  <h3 class="text-center mb-5">Upload File </h3>
+                    @csrf
+                    @if ($message = Session::get('success'))
+                    <div class="alert alert-success">
+                        <strong>{{ $message }}</strong>
+                    </div>
+                  @endif
+                  @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                  @endif
+                    <div class="custom-file">
+                        <input type="file" name="file" class="custom-file-input" id="chooseFile">
+                        <label class="custom-file-label" for="chooseFile">Select file</label>
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                        Upload Files
+                    </button>
+                </form>
+            </div>
+        </body>
+        </div>
+      
      <div class="panel panel-default">
          <div class="panel-heading">
              <h3 class="panel-title">Uploaded Image</h3>
@@ -38,14 +89,7 @@
          <div class="panel-body" id="uploaded_image">
 
          </div>
-         <h3>Add Your Note :</h3>
-         <Form class="note" method="post" name="note" action="{{ route('dropzone.note') }}">
-             @csrf
-             <textarea name="note" id="note" cols="30" rows="5"></textarea><br><br>
 
-
-             <button type="submit" class="btn btn-info" id="submit">Submit Note</button>
-         </Form>
      </div>
  </div>
 

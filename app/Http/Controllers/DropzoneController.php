@@ -16,9 +16,15 @@ class DropzoneController extends Controller
     {
         return view('dropzone');
     }
-
+    function dash()
+    {
+        return view('dashboard');
+    }
     function upload(Request $request)
     {
+
+        $old_primrekey = Shipment::orderBy('created_at', 'desc')->value('id');
+        $shipment_id = $old_primrekey + 1;
 
         $image = $request->file('file');
 
@@ -28,20 +34,17 @@ class DropzoneController extends Controller
 
         shipment_image::create([
             'image' => $imageName,
-            'shipment_id' => $request->shipment_id,
+            'shipment_id' => $shipment_id,
+        ]);
+
+        Shipment::create([
+            'id' => $shipment_id,
+            'note' => $request->note,
         ]);
 
         return response()->json(['success' => $imageName]);
     }
 
-    function note(Request $request)
-    {
-        Shipment::create([
-            'note' => $request->note,
-        ]);
-
-        return response()->json(['success' => 'done']);
-    }
 
 
     function fetch()
